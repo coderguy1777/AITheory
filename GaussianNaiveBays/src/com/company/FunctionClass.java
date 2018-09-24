@@ -41,7 +41,7 @@ public class FunctionClass {
     }
 
     private FunctionClass(String[][]Probabity, int C, int X, int A, int Column, int Row) {
-        
+
 
     }
 }
