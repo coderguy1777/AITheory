@@ -1,8 +1,10 @@
-import java.lang.reflect.Array;
+package com.company;
+
+
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
-import java.util.List;
 
 public class FileScanner {
     public static int XInput;
@@ -12,7 +14,7 @@ public class FileScanner {
     public static int Coordinate2;
 
     public static void main(String[] args) {
-        List<DataSetReader> Double = new ArrayList<>();
+        ArrayList<DataSetReader>Double = new ArrayList<>();
         int i = '0';
         int j = '1';
         String[] ClassClassifierClass0 = new String[i];
@@ -33,6 +35,8 @@ public class FileScanner {
                     int Class0 = 2;
                     int Class1 = 1;
                     int ClassIdentifier = 0;
+                    int NoCoordinatesPresent = -1;
+
                     String ClassScanner = scan1.nextLine();
                     for(int ClassNumber = 0; ClassNumber < ClassScanner.length(); ClassNumber++) {
                         if(ClassScanner.charAt(ClassNumber) == '0') {
@@ -55,9 +59,35 @@ public class FileScanner {
                                 break;
                             }
                         }
+                        if(ClassScanner.charAt(ClassNumber) == ' ') {
+                            FileArray[ClassNumber][ClassIdentifier] = NoCoordinatesPresent;
+                            System.out.println("Due to a file error and nothing present, nothing could be done with the data file given to scan.");
+                            break;
+                        }
                     }
+                    ClassIdentifier++;
 
                 }
+            }
+            double CoordinateDecimalFinder = 0.0;
+            String CoordinateSpace = scan1.nextLine();
+            for(double Coordinates = 0.0; Coordinates < CoordinateSpace.length(); Coordinates++) {
+                CoordinateDecimalFinder = 0.0 * 2.1;
+                if(CoordinateDecimalFinder >= Coordinates || CoordinateDecimalFinder == Coordinates) {
+                    int Class0Coord = 0;
+                    int Class0Coord2 = 1;
+                    String[][]CoordinateHolderClass0 = new String[Class0Coord][Class0Coord2];
+                    for(int Class0Coordinates = 0; Class0Coordinates <= CoordinateHolderClass0.length; Class0Coordinates++) {
+                        CoordinateHolderClass0[Class0Coord][Class0Coord2] = CoordinateHolderClass0[Class0Coord+2][Class0Coord2 + 2];
+                        int[][]NumberofClass0Coordinates = new int[0][3];
+
+
+                    }
+
+
+
+                }
+
             }
         } catch (IOException e) {
             e.getStackTrace();
@@ -70,7 +100,7 @@ public class FileScanner {
         System.out.println("Now Please type a Number for the input of Y.");
         YInput = inputscanner.nextInt();
         System.out.println("You typed:" + XInput + "," + YInput + "" + "as your inputs, is this correct? Please type Y or N to say so.");
-        String input = inputscanner.next();
+        String input = inputscanner.next() ;
         boolean Inputendprogram = true;
         while (Inputendprogram == true) {
             if (input == "Y") {
