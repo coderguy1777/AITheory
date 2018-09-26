@@ -1,46 +1,46 @@
-package com.company;
 import java.io.File;
 import java.io.*;
-import java.util.HashSet;
-import java.util.Random;
-import java.io.DataInput;
-import java.io.DataInputStream;
+import java.io.Reader;
+import java.io.InputStreamReader;
 import java.util.Scanner;
+import java.util.function.BooleanSupplier;
+import java.util.HashSet;
+import java.io.StringReader;
+import java.io.FileReader;
+import java.util.Scanner;
+import java.util.*;
 
 public class FunctionClass {
-    public static int sigmasmall;
-    public static int mu;
-    public static int A;
-    public static int B;
-    public final double pi = 3.14592653589793238462643383279502;
+
+    public static int mu_var;
+    public int smallsigma_var;
+    public boolean A;
+    public boolean B;
+    public int eplision_var;
+    public String a;
+    public String b;
+    public final double MIN_VALUE_OF_STRING = 0.01;
+    public final double MAX_VALUE_OF_STRING = 1;
+    public static double DataScan;
+
 
     public static void main(String[] args) {
-        try {
-            Scanner scan = new Scanner(new BufferedReader(new FileReader("data.txt")));
-            double[][]class1 = new double[1][1];
-            DataInputStream dis = new DataInputStream(System.in);
-            for(int i = 0;i > class1.length;i++) {
-               mu = Integer.parseInt(dis.readLine());
-               sigmasmall = Integer.parseInt(dis.readLine());
-               if(mu >= class1[0][1] || sigmasmall >= class1[0][1]) {
-                   A = mu;
-                   B = sigmasmall;
-               }
-               if(A >= 0 || B != 0) {
-                   int c = 0;
-                   c = c/A;
-               }
-            }
 
+        Scanner scan;
+        DataSetReader DataTest = new DataSetReader();
+
+        try {
+            FileReader reader = new FileReader("Data.txt");
+            double Character;
+            while ((Character = reader.read()) != -1) {
+                System.out.print((char) (Character));
+            }
+            reader.close();
 
 
         } catch (IOException e) {
-            e.getMessage();
-            System.out.print(e);
+            e.printStackTrace();
         }
-    }
-
-    private FunctionClass(String[][]Probabity, int C, int X, int A, int Column, int Row) {
 
 
     }
