@@ -16,7 +16,6 @@ public class FileScanner {
                 int ClassNumber = scan.nextInt();
                 double Coordinate1 = scan.nextDouble();
                 double Coordinate2 = scan.nextDouble();
-
                 if (ClassNumber == 0) {
                     dataset.add(ClassNumber);
                     dataset.add(ClassNumber);
