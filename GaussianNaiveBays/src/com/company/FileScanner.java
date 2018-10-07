@@ -136,7 +136,6 @@ public class FileScanner {
         }
         XandYPointStorageArray();
         System.out.println(XandYPointStorage);
-
         return null;
     }
 
@@ -145,13 +144,6 @@ public class FileScanner {
     }
 
     private static ArrayList<ArrayList<Double>> Average() {
-        Object[]storagearray = dataset.toArray();
-        for(Object obj: storagearray) {
-            double avgx;
-            double avgy;
-            storagearray = dataset.toArray(storagearray);
-
-        }
         return null;
     }
 
