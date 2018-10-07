@@ -4,14 +4,14 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class FileScanner {
-
     private static ArrayList<Double> Coordinates = new ArrayList<Double>();
     private static ArrayList<Double> dataset = new ArrayList<Double>();
     private static int trueclassnumber;
     public static double Coordinate1;
     public static double Coordinate2;
-    private static ArrayList<Integer> XandYPointStorage = new ArrayList<Integer>();
-
+    public static ArrayList<Integer>XandYPointStorage = new ArrayList<Integer>();
+    public static Integer[]XandYArray;
+    public static Double[]dataSetArray;
 
     public static void main(String[] args) {
         UserInput();
@@ -44,6 +44,8 @@ public class FileScanner {
 
                 System.out.println(trueclassnumber);
                 System.out.println(dataset);
+
+                
                 while(!scan.hasNext()) {
                     DataSetReadingConfirmation();
                     break;
@@ -122,7 +124,19 @@ public class FileScanner {
                 break;
             }
         }
+        else if(Input.equals("y")) {
+            System.out.println("The Program will now calculate the probability of your points.");
+            FileReader();
+        }
+        else if(Input.equals("n")) {
+            boolean endinput = true;
+            while (endinput) {
+                break;
+            }
+        }
+        XandYPointStorageArray();
         System.out.println(XandYPointStorage);
+
         return null;
     }
 
@@ -131,6 +145,23 @@ public class FileScanner {
     }
 
     private static ArrayList<ArrayList<Double>> Average() {
+        Object[]storagearray = dataset.toArray();
+        for(Object obj: storagearray) {
+            double avgx;
+            double avgy;
+            storagearray = dataset.toArray(storagearray);
+
+        }
+        return null;
+    }
+
+    private static int[] XandYPointStorageArray() {
+        XandYArray = new Integer[XandYPointStorage.size()];
+        XandYPointStorage.toArray(XandYArray);
+        return null;
+    }
+
+    private static double[] datasetArray() {
         return null;
     }
 }
