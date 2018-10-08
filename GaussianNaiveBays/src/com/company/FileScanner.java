@@ -1,4 +1,5 @@
-package com.company;
+import javax.xml.crypto.dom.DOMCryptoContext;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.io.*;
 import java.util.ArrayList;
@@ -6,6 +7,7 @@ import java.util.ArrayList;
 public class FileScanner {
     private static ArrayList<Double> Coordinates = new ArrayList<Double>();
     private static ArrayList<Double> dataset = new ArrayList<Double>();
+    private static ArrayList<Double> XCoordinatess = new ArrayList<Double>();
     private static int trueclassnumber;
     public static double Coordinate1;
     public static double Coordinate2;
@@ -28,6 +30,7 @@ public class FileScanner {
             ArrayList<ArrayList<Integer>> Coordinates = new ArrayList<ArrayList<Integer>>();
             ArrayList<ArrayList<Double>> dataset = new ArrayList<ArrayList<Double>>();
 
+
             while (scan.hasNext()) {
                 trueclassnumber = scan.nextInt();
 
@@ -41,11 +44,12 @@ public class FileScanner {
 
                 dataset.get(trueclassnumber).add(Coordinate1);
                 dataset.get(trueclassnumber).add(Coordinate2);
+                XCoordinatess.add(Coordinate1);
 
                 System.out.println(trueclassnumber);
                 System.out.println(dataset);
+                System.out.println(XCoordinatess);
 
-                
                 while(!scan.hasNext()) {
                     DataSetReadingConfirmation();
                     break;
@@ -134,8 +138,10 @@ public class FileScanner {
                 break;
             }
         }
+
         XandYPointStorageArray();
         System.out.println(XandYPointStorage);
+        XCoordinateArray();
         return null;
     }
 
@@ -149,11 +155,46 @@ public class FileScanner {
 
     private static int[] XandYPointStorageArray() {
         XandYArray = new Integer[XandYPointStorage.size()];
-        XandYPointStorage.toArray(XandYArray);
+        for(int i = 0; i < XandYPointStorage.size(); i++) {
+            XandYArray[i] = XandYPointStorage.get(i);
+            for(Integer x : XandYArray) {
+                System.out.println(x);
+            }
+        }
+        int x = 0;
         return null;
     }
 
     private static double[] datasetArray() {
+        dataSetArray = new Double[dataset.size()];
+        for(int x = 0; x < dataset.size(); x++) {
+            dataSetArray[x] = dataset.get(x);
+            for(Double i : dataSetArray) {
+                System.out.println(i);
+            }
+        }
+        return null;
+    }
+
+    public static void FormulaforNaiveBayesWithXCoordinates() {
+        int x = XandYArray[0];
+        ArrayList<Integer>FormulaStorage = new ArrayList<>();
+        for(int i = 0; i < FormulaStorage.size(); i++) {
+            int v = x;
+
+        }
+    }
+
+    private static double[]XCoordinateArray() {
+        Double[]XCoordinates = new Double[XCoordinatess.size()];
+        for(int i = 0; i < XCoordinatess.size(); i++) {
+            XCoordinates[i] = XCoordinatess.get(i);
+            for(Double x : XCoordinates) {
+                System.out.println(x);
+            }
+
+        }
+
         return null;
     }
 }
