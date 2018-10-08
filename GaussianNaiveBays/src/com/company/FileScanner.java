@@ -15,6 +15,7 @@ public class FileScanner {
     public static ArrayList<Double>YCoordinates = new ArrayList<Double>();
 
     private static double Variance;
+    private static double StoreVariable;
     public static Integer[]XandYArray;
     public static Double[]dataSetArray;
     public static Double[]XCoordinates;
@@ -187,6 +188,7 @@ public class FileScanner {
         for(int i = 0; i < XCoordinatess.size(); i ++) {
             xtemp[0] = XCoordinatess.get(i);
             while(i < xtemp.length) {
+                StoreVariable = xtemp[0];
                 Variance = xtemp[0] * 2;
                 break;
             }
@@ -227,5 +229,6 @@ public class FileScanner {
     public static void FinalFunction() {
         FormulaforNaiveBayesWithXCoordinates();
         System.out.println(Variance);
+        System.out.println(StoreVariable + StoreVariable + StoreVariable + StoreVariable/4);
     }
 }
