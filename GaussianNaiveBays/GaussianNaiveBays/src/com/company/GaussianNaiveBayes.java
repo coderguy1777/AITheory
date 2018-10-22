@@ -102,12 +102,11 @@ public class GaussianNaiveBayes {
 
             while (scan.hasNext()) {
                 trueclassnumber = scan.nextInt();
-                if (dataset.size() < trueclassnumber + trueclassnumber + 1 ) {
+                if (dataset.size() < trueclassnumber + 1 ) {
                     dataset.add(new ArrayList<Double>());
                 }
                 Coordinate1 = scan.nextDouble();
                 Coordinate2 = scan.nextDouble();
-                BackFunctions();
 
                 dataset.get(trueclassnumber).add(Coordinate1);
                 dataset.get(trueclassnumber).add(Coordinate2);
@@ -147,6 +146,7 @@ public class GaussianNaiveBayes {
         if (Input.equals("Y")) {
             System.out.println("The Program will now calculate the probability that your points exist, please wait while this is done.");
             FileReader();
+            BackFunctions();
         } else if (Input.equals("N")) {
             System.out.println("The Program will now end.");
             boolean endinput = true;
@@ -221,7 +221,6 @@ public class GaussianNaiveBayes {
      */
     private static void BackFunctions() {
         XandYPointStorageArray();
-        XandYStorerforAllClasses(dataset);
         XCoordinateArray();
         YCoordinateArray();
         SumofXFramework();
@@ -246,8 +245,9 @@ public class GaussianNaiveBayes {
     }
 
     /*
-    @param:
-    @param:
+    @param: The First Parameter of this method is assigning the static value, sumofy, 0, so it can be used later on in the method
+    for doing the sum of the Y Coordinates, and then for use later on within the program itself for doing gaussian naive bayes.
+    @param: The Second Parameter of this method is summing up all the Y Coordinates from
     @return:
      */
     private static double SumofYFramework() {
@@ -266,18 +266,21 @@ public class GaussianNaiveBayes {
     */
     private static void MeanofXCoordinatesFramework() {
         int i = 1;
-        MeanofXCoordinates = SumofX / 2 * i;
+        MeanofXCoordinates = SumofX / XCoordinatess.size();
     }
 
     /*
-     @param: The First Parameter of this method is taking the SumofY then dividing that by 4.
-     @param: The Second Parameter of this method is taking the divided SumofY divided by 4 and multiplying that by 1.
-     @return: The Return Value of this Method is adding the SumofY Divided by 4 and Multiplying that by one, and then
+     @param: The First Parameter of this method is taking the SumofY then dividing that by the size of the Y Coordinates
+     for the Mean of the Y Coordinates.
+     @param: The Second Parameter of this method is taking the divided SumofY divided by the Size of the Y Coordinates Array
+     list and multiplying that by 1.
+     @return: The Return Value of this Method is adding the SumofY Divided by that the size of the
+     Y Coordinate ArrayList and Multiplying that by one, and then
      assigning that to the static double of MeanofYCoordinates, allowing it to be used throughout the program.
     */
     private static void MeanofYCoordinatesFramework() {
         int i = 1;
-        MeanofYCoordinates = SumofY / 2 * i;
+        MeanofYCoordinates = SumofY / YCoordinates.size();
     }
 
     /*
@@ -345,7 +348,7 @@ public class GaussianNaiveBayes {
         FinalPartforX = multiplyingvalue1 * multiplyingvalue1;
         FinalPartforY = multiplyingvalue2 * multiplyingvalue2;
         cvalue = XCoordinatess.size() + YCoordinates.size();
-        secondcvalue = cvalue/2;
+        secondcvalue = cvalue/ClassValues.size();
         //Combining of Formula for the final probability print out in the last method.
         FinalPartofFormula1 = secondcvalue / FinalPartforX / FinalPartforY; //Probability for X values being in Dataset.
         FinalPartofFormula2 = yvalue2 / FinalPartforX / FinalPartforY; //Probability for Y values being in Dataset.
@@ -364,6 +367,12 @@ public class GaussianNaiveBayes {
      */
     private static void Probabilityprintout() {
         FinalFormula();
-        System.out.println("Class" + " " + trueclassnumber + " " + "Probability:" + " " + FinalPartofFormula1);
+        for(int i = 0; i < ClassValues.size(); i++) {
+            for(double x : ClassValues) {
+                x = ClassValues.get(i);
+                System.out.println("Class" + " " + x + " " + "Probability:" + " " + FinalPartofFormula1);
+                break;
+            }
+        }
     }
 }
