@@ -102,7 +102,7 @@ public class GaussianNaiveBayes {
 
             while (scan.hasNext()) {
                 trueclassnumber = scan.nextInt();
-                if (dataset.size() < trueclassnumber + 1) {
+                if (dataset.size() < trueclassnumber + trueclassnumber + 1 ) {
                     dataset.add(new ArrayList<Double>());
                 }
                 Coordinate1 = scan.nextDouble();
@@ -114,6 +114,7 @@ public class GaussianNaiveBayes {
                 XCoordinatess.add(Coordinate1);
                 YCoordinates.add(Coordinate2);
                 ClassValues.add(trueclassnumber);
+
                 while (!scan.hasNext()) {
                     DataSetReadingConfirmation();
                     break;
@@ -185,8 +186,9 @@ public class GaussianNaiveBayes {
     /*
     @param: The First Parameter of this method is making the XCoordinate Array that is declared as static at the start
     of the program here contain the indicies of the X Coordinates Arraylist, which is added in next.
-    @param: The Second Parameter of this method is using a for loop. and adding each number from the XCoordis
-    @return:
+    @param: The Second Parameter of this method is using a for loop. and adding each number from the XCoordinates, for them
+    to be used later on in the Gaussian Naive Bayes Formula.
+    @return: The Return Value of this method is the X Coordinates added into an Array for use later on in the program.
      */
     private static void XCoordinateArray() {
         XCoordinates = new double[XCoordinatess.size()];
@@ -198,9 +200,10 @@ public class GaussianNaiveBayes {
     /*
     @param: The First parameter of this method is taking the size of the Arraylist that is storing the Y Coordinates, and
     and makes it into a new array for the use within making a Y Coordinate Array.
-    @param:
-    @return: The Return value of this method is all the Y Values from the Arraylist that is storing the Y Coordinates into
-
+    @param: The Second parameter of this array is taking the Y Coordinates from that array and making them into an Array
+    for use later on in this program.
+    @return: The Return value of this method is all the Y Values from the Arraylist that is storing the Y Coordinates into and array,
+    and for use later on in this method.
      */
     private static void YCoordinateArray() {
         YCoordinatess = new double[YCoordinates.size()];
