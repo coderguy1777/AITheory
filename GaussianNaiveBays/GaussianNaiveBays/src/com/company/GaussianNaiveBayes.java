@@ -16,7 +16,7 @@ public class GaussianNaiveBayes {
     private static double[] YCoordinatess;
     private static ArrayList<Double> dataset = new ArrayList<Double>();
     private static ArrayList<Double> XCoordinatess = new ArrayList<Double>();
-    private static ArrayList<String> ClassXCoordinates = new ArrayList<String>();
+    private static ArrayList<Object> ClassXCoordinates = new ArrayList<Object>();
     private static ArrayList<Double> XandYPointStorage = new ArrayList<Double>();
     private static ArrayList<Double> YCoordinates = new ArrayList<Double>();
     private static ArrayList<Integer>ClassValues = new ArrayList<Integer>();
@@ -181,10 +181,16 @@ public class GaussianNaiveBayes {
             ClassValuesArray[i] = ClassValues2.get(i);
             int test = ClassValuesArray.length;
             int[] test2 = Arrays.copyOf(ClassValuesArray, test);
-            for (int ii = 0; ii < test2.length; ii--) {
-                ClassXCoordinates.add(test2[ii] + " " + XCoordinatess.get(i) + " " + YCoordinates.get(i));
-                System.out.println(ClassXCoordinates);
-                break;
+            for (int ii = 0; ii < test2.length; ii++) {
+                int nnn = test2[ii];
+                while (nnn == 0 || nnn <= 1) {
+                    ClassXCoordinates.add(nnn + " " + XCoordinatess.get(ii) + " " + YCoordinates.get(ii));
+                    int x = ClassXCoordinates.size();
+                    if(x <= 2) {
+                        System.out.println(ClassXCoordinates);
+                    }
+                    break;
+                }
             }
         }
     }
