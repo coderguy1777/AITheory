@@ -22,7 +22,7 @@ public class GaussianNaiveBayes {
     private static ArrayList<Integer>ClassValues = new ArrayList<Integer>();
     private static ArrayList<Integer>ClassValues2 = new ArrayList<Integer>();
     private static int[]ClassValuesArray;
-    private static int[]XCoordinateClassValue;
+    private static double[][][]XCoordinateClassValue;
     private static ArrayList<Double>CoordinateSorter = new ArrayList<Double>();
 
 
@@ -122,11 +122,6 @@ public class GaussianNaiveBayes {
     @return: The Return value of this method is the values for the X and Y user input being stored in the Arraylist, that
     being the Array list XandYPointStorage<>();
      */
-
-    private static double teststetstststst() {
-        double i = 0;
-        return i;
-    }
     public static ArrayList<ArrayList<Integer>> UserInput() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Please Enter X:");
@@ -172,11 +167,34 @@ public class GaussianNaiveBayes {
         }
     }
 
+    private static void ClassTestLoop() {
+        XCoordinateClassValue = new double[ClassValues2.size()][XCoordinatess.size()][YCoordinates.size()];
+        for (int i = 0; i < ClassValues2.size(); i++) {
+            XCoordinateClassValue[i][0][0] = ClassValues2.get(i);
+            for (int j = 0; j < XCoordinatess.size(); j++) {
+                XCoordinateClassValue[i][j][0] = XCoordinatess.get(j);
+            }
+                Double j = XCoordinatess.get(i);
+                for (int k = 0; k < YCoordinates.size(); k++) {
+                    XCoordinateClassValue[i][j][k] = YCoordinates.get(k);
+                    System.out.println(XCoordinateClassValue[i][0][0]);
+                }
+            }
+        }
+    }
+
+    /*
+    @param:
+    @param:
+    @return:
+     */
     private static void SortingMethodForClassValues() {
-        for (int i = 0; i <= XCoordinatess.size(); i++) {
-            double val = Double.parseDouble(String.valueOf(XCoordinates[i]));
+        for (int i = 0; i < XCoordinatess.size(); i++) {
+            double val = Double.parseDouble(String.valueOf(XCoordinatess.get(i)));
             ClassXCoordinates.add(val);
-            System.out.println(ClassXCoordinates.get(i));
+            if (i > XCoordinatess.size()) {
+                break;
+            }
         }
     }
 
@@ -251,6 +269,7 @@ public class GaussianNaiveBayes {
     private static void BackFunctions() {
         ClassValueloop();
         ClassValuesArray();
+        ClassTestLoop();
         XandYPointStorageArray();
         XCoordinateArray();
         YCoordinateArray();
