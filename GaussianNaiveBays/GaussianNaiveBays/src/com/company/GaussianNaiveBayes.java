@@ -55,19 +55,20 @@ public class GaussianNaiveBayes {
                 dataset.get(trueclassnumber).add(Coordinate2);
 
                 int i = 0;
-                for(int x = i; i < dataset.size(); x = i + 1) {
+                if(i < dataset.size()) {
                     XCoordinatess.add(new ArrayList<>());
                     XCoordinatess.get(trueclassnumber).add(Coordinate1);
-                    break;
-                }
-                int o = 0;
-                for(int y = o; y < dataset.size(); y = o + 1) {
-                    YCoordinates.add(new ArrayList<>());
-                    YCoordinates.get(trueclassnumber).add(Coordinate2);
-                    break;
+                    MeanforX();
                 }
 
-                while (!scan.hasNext()) {
+                int o = 0;
+                if(o < dataset.size()) {
+                    YCoordinates.add(new ArrayList<>());
+                    YCoordinates.get(trueclassnumber).add(Coordinate2);
+                    MeanforY();
+                }
+
+                if (!scan.hasNext()) {
                     DataSetReadingConfirmation();
                     break;
                 }
@@ -105,26 +106,23 @@ public class GaussianNaiveBayes {
         }
     }
 
-    private static void MeanMethod() {
-        SumofX = 0;
-        SumofY = 0;
+    private static void MeanforX() {
+        for(int i = 0; i < XCoordinatess.size(); i++) {
+            XCoordinatess.get(i);
+            for(double x = i; x < XCoordinatess.get(i).size(); x++) {
+                ArrayList<Double> list = XCoordinatess.get(i);
+                System.out.println(list);
+            }
+        }
     }
+    private static void MeanforY() {
+        for(int i = 0; i < YCoordinates.size(); i++) {
+            YCoordinates.get(i);
+            for(double y = i; y < YCoordinates.size(); y++) {
+                ArrayList<Double>list = YCoordinates.get(i);
+                System.out.println(list);
+            }
 
-    private static void VarianceMethod() {
-        int i = 0;
-        int j = 0;
-        int k = 0;
-    }
-
-    private static void FormulaMethod() {
-        int i = 0;
-        int j = 0;
-        int k = 0;
-    }
-
-    private static void FinalClassProbability() {
-        int i = 0;
-        int k = 0;
-        int j = 0;
+        }
     }
 }
