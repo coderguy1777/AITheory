@@ -20,6 +20,8 @@ public class GaussianNaiveBayes {
     private static int trueclassnumber; //Prints Class Value.
     private static Double Coordinate1; //Value for Storing X Coordinates.
     public static Double Coordinate2; //Value for Storing Y Coordinates.
+    public static Double meanforx;
+    public static Double meanfory;
     private static double xvalue1; //Value for the User input for the X Points to be used to calculate the final probability.
     private static double yvalue2; //Value for the User input for the Y Points to be used to calculate the final probability.
     public static double SumofX; //Used to find the sum of all the X Coordinates, mainly to be used for finding the mean value of the X Coordinates.
@@ -39,7 +41,7 @@ public class GaussianNaiveBayes {
         System.out.println(a);
     }
 
-    private static void DataReader() {
+    private static ArrayList<ArrayList<Double>> DataReader() {
         try {
             Scanner scan = new Scanner(new BufferedReader(new FileReader("data")));
             dataset = new ArrayList<>();
@@ -76,6 +78,7 @@ public class GaussianNaiveBayes {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     private static void UserInput() {
@@ -107,22 +110,33 @@ public class GaussianNaiveBayes {
     }
 
     private static void MeanforX() {
-        for(int i = 0; i < XCoordinatess.size(); i++) {
-            XCoordinatess.get(i);
-            for(double x = i; x < XCoordinatess.get(i).size(); x++) {
-                ArrayList<Double> list = XCoordinatess.get(i);
-                System.out.println(list);
+        for (int outerArrayIndex = 0; outerArrayIndex < XCoordinatess.size(); outerArrayIndex++) {
+            Double sum = Double.valueOf(0);
+            for (int innerArrayIndex = 0; innerArrayIndex < XCoordinatess.get(outerArrayIndex).size(); innerArrayIndex++) {
+                sum += XCoordinatess.get(outerArrayIndex).get(innerArrayIndex);
             }
+            meanforx = sum / XCoordinatess.get(outerArrayIndex).size();
         }
     }
     private static void MeanforY() {
-        for(int i = 0; i < YCoordinates.size(); i++) {
-            YCoordinates.get(i);
-            for(double y = i; y < YCoordinates.size(); y++) {
-                ArrayList<Double>list = YCoordinates.get(i);
-                System.out.println(list);
+        for (int outerArrayIndex = 0; outerArrayIndex < YCoordinates.size(); outerArrayIndex++) {
+            Double sum = Double.valueOf(0);
+            for (int innerArrayIndex = 0; innerArrayIndex < YCoordinates.get(outerArrayIndex).size(); innerArrayIndex++) {
+                sum += YCoordinates.get(outerArrayIndex).get(innerArrayIndex);
             }
+            meanfory = sum / YCoordinates.get(outerArrayIndex).size();
+        }
+    }
 
+    private static void VarianceforX() {
+        for(int ij = 0; ij < dataset.size(); ij++) {
+
+        }
+    }
+
+    private static void VarianceforY() {
+        if(YCoordinates ==  null || YCoordinates.isEmpty()) {
+            return;
         }
     }
 }
