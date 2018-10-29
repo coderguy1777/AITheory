@@ -17,7 +17,7 @@ public class GaussianNaiveBayes {
     private static ArrayList<ArrayList<Double>> YCoordinates = new ArrayList<>();
     private static ArrayList<ArrayList<Double>> XCoordinatess = new ArrayList<>();
     private static ArrayList<Integer> ClassValues = new ArrayList<>();
-    private static Integer[] ClassArray;
+    private static double[] ClassArray;
 
     //All the Static Integers and Doubles I used for my Program when making it.
     private static int trueclassnumber; //Prints Class Value.
@@ -69,7 +69,6 @@ public class GaussianNaiveBayes {
                 dataset.get(trueclassnumber).add(Coordinate1);
                 dataset.get(trueclassnumber).add(Coordinate2);
                 ClassValues.add(trueclassnumber);
-
 
                 int i = 0;
                 if (i < dataset.size()) {
@@ -128,6 +127,7 @@ public class GaussianNaiveBayes {
     }
 
     private static void Backfunctions() {
+        ClassLoop();
         ClassValueArray();
         VarianceforY(YCoordinates);
         VarianceforX(XCoordinatess);
@@ -199,9 +199,17 @@ public class GaussianNaiveBayes {
         return VarianceY;
     }
 
+    private static void ClassLoop() {
+        for (int xx = 0; xx < ClassValues.size(); xx++) {
+            if (xx < trueclassnumber + 1) {
+                ClassValues.add(xx);
+            }
+        }
+    }
+
     private static void ClassValueArray() {
-        ClassArray = new Integer[ClassValues.size()];
-        for (int i = 0; i < ClassValues.size(); i++) {
+        ClassArray = new double[ClassValues.size()];
+        for(int i = 0; i < ClassValues.size(); i++) {
             ClassArray[i] = ClassValues.get(i);
         }
     }
@@ -222,14 +230,13 @@ public class GaussianNaiveBayes {
         Cvalue = 2;
         XCvalue = FinalformulaX / meanforx / VarianceX;
         YCvalue = Finalformulay / meanfory / VarianceY;
-        ClassProbability = Cvalue / XCvalue / YCvalue;
     }
 
     private static void ClassCombination() {
         FinalCombination();
         for (int i = 0; i < ClassArray.length; i++) {
             double xx = ClassArray[i];
-            System.out.println("Class" + " " + xx + " " + "Probability:" + " " + Cvalue/XCvalue/YCvalue);
+            System.out.println("Class" + " " + trueclassnumber + " " + "Probability:" + " " + Cvalue/XCvalue/YCvalue);
         }
     }
 }
