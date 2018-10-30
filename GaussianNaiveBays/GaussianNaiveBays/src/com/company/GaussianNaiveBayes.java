@@ -59,24 +59,30 @@ public class GaussianNaiveBayes {
         try {
             Scanner scan = new Scanner(new BufferedReader(new FileReader("data")));
             dataset = new ArrayList<>();
-            XCoordinatess = new ArrayList<Double>();
             while (scan.hasNext()) {
                 trueclassnumber = scan.nextInt();
                 if (dataset.size() < trueclassnumber + 1) {
-                    dataset.add(new ArrayList<>(count));
+                    dataset.add(new ArrayList<>());
                     count++;
                 }
                 Coordinate1 = scan.nextDouble();
                 Coordinate2 = scan.nextDouble();
                 dataset.get(trueclassnumber).add(Coordinate1);
                 dataset.get(trueclassnumber).add(Coordinate2);
-
-                XCoordinatess.add(Coordinate1);
+                XCoordinatess.add(trueclassnumber, Coordinate1);
+                System.out.println(XCoordinatess.size());
+                if(XCoordinatess.size() == 2) {
+                    sumofx = 0;
+                    for(int i = 0; true; i++) {
+                        sumofx += XCoordinatess.get(i);
+                        System.out.println(sumofx);
+                    }
+                }
                 YCoordinates.add(Coordinate2);
                 for (Double XCoordinates : XCoordinatess) {
                     sumofx = 0;
                     while(sumofx < XCoordinatess.size()) {
-                        sumofx += XCoordinatess.get(trueclassnumber);
+                        sumofx = sumofx + XCoordinatess.get(trueclassnumber);
                         meanforx = sumofx / XCoordinatess.size();
                     }
                 }
@@ -95,7 +101,7 @@ public class GaussianNaiveBayes {
             for (int i = 0; i < XCoordinatess.size(); i++) {
                 double pointvalue = XCoordinatess.get(i);
                 double meanforxx = meanforx;
-                variancex = Math.pow((pointvalue * 1.0 - meanforxx), 2);
+                variancex = Math.pow((XCoordinatess.get(i) * 1.0 - meanforxx), 2);
                 VarianceX = VarianceX + variancex;
             }
 
@@ -106,7 +112,7 @@ public class GaussianNaiveBayes {
                 double pointvalue = YCoordinates.get(i);
                 double meanforyy = meanfory;
                 variance = Math.pow((pointvalue * 1.0 - meanforyy), 2);
-                VarianceY += variance;
+                VarianceY = VarianceY + variance;
             }
 
             VarianceY = VarianceY / (YCoordinates.size() - 1);
