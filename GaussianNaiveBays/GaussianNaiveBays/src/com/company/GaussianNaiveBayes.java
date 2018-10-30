@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class GaussianNaiveBayes {
     //All the Static Arrays I used for Storing Points and User input for the program to use later on.
     private static ArrayList<ArrayList<Double>> dataset = new ArrayList<>();
-    private static ArrayList<ArrayList<Double>> YCoordinates = new ArrayList<>();
-    private static ArrayList<ArrayList<Double>> XCoordinatess = new ArrayList<>();
+    private static ArrayList<Double> YCoordinates = new ArrayList<Double>();
+    private static ArrayList<Double> XCoordinatess = new ArrayList<Double>();
     private static ArrayList<Integer> ClassValues = new ArrayList<>();
     private static double[] ClassArray;
 
@@ -43,6 +43,7 @@ public class GaussianNaiveBayes {
     private static double ClassProbability;
     private static double sumofx;
     private static double sumofy;
+    private static int count = 0;
 
 
     public static void main(String[] args) {
@@ -58,39 +59,81 @@ public class GaussianNaiveBayes {
         try {
             Scanner scan = new Scanner(new BufferedReader(new FileReader("data")));
             dataset = new ArrayList<>();
-            XCoordinatess = new ArrayList<>();
+            XCoordinatess = new ArrayList<Double>();
             while (scan.hasNext()) {
                 trueclassnumber = scan.nextInt();
                 if (dataset.size() < trueclassnumber + 1) {
-                    dataset.add(new ArrayList<>());
+                    dataset.add(new ArrayList<>(count));
+                    count++;
                 }
                 Coordinate1 = scan.nextDouble();
                 Coordinate2 = scan.nextDouble();
                 dataset.get(trueclassnumber).add(Coordinate1);
                 dataset.get(trueclassnumber).add(Coordinate2);
-                ClassValues.add(trueclassnumber);
 
-                int i = 0;
-                if (i < dataset.size()) {
-                    XCoordinatess.add(new ArrayList<>());
-                    XCoordinatess.get(trueclassnumber).add(Coordinate1);
-                    MeanforX();
+                XCoordinatess.add(Coordinate1);
+                YCoordinates.add(Coordinate2);
+                for (Double XCoordinates : XCoordinatess) {
+                    sumofx = 0;
+                    while(sumofx < XCoordinatess.size()) {
+                        sumofx += XCoordinatess.get(trueclassnumber);
+                        meanforx = sumofx / XCoordinatess.size();
+                    }
                 }
+            }
 
-                int o = 0;
-                if (o < dataset.size()) {
-                    YCoordinates.add(new ArrayList<>());
-                    YCoordinates.get(trueclassnumber).add(Coordinate2);
-                    MeanforY();
+            for (Double YCoordinate : YCoordinates) {
+                sumofy = 0;
+                while(sumofy < YCoordinates.size()) {
+                    sumofy += YCoordinates.get(trueclassnumber);
+                    meanfory = sumofy / YCoordinates.size();
                 }
+            }
 
-                Backfunctions();
+            double variancex = 0;
+            VarianceX = 0;
+            for (int i = 0; i < XCoordinatess.size(); i++) {
+                double pointvalue = XCoordinatess.get(i);
+                double meanforxx = meanforx;
+                variancex = Math.pow((pointvalue * 1.0 - meanforxx), 2);
+                VarianceX = VarianceX + variancex;
+            }
 
-                if (!scan.hasNext()) {
-                    DataSetReadingConfirmation();
+            VarianceX = VarianceX / (XCoordinatess.size() - 1);
+            double variance = 0;
+            VarianceY = 0;
+            for (int i = 0; i < YCoordinates.size(); i++) {
+                double pointvalue = YCoordinates.get(i);
+                double meanforyy = meanfory;
+                variance = Math.pow((pointvalue * 1.0 - meanforyy), 2);
+                VarianceY += variance;
+            }
 
+            VarianceY = VarianceY / (YCoordinates.size() - 1);
+
+            BottomHalfofFormulaforX = 1 / Math.sqrt(2 * 3.14 * meanforx);
+            ExponentofFormulaforX = Math.pow(xvalue1 - VarianceX, 2) / 2 * VarianceX;
+            FinalformulaX = BottomHalfofFormulaforX * ExponentofFormulaforX;
+
+            BottomHalfofFormulaforY = 1 / Math.sqrt(2 * 3.14 * meanfory);
+            ExponentofFormulaY = Math.pow(yvalue2 - VarianceY, 2) / 2 * VarianceY;
+            Finalformulay = BottomHalfofFormulaforY * ExponentofFormulaY;
+
+            Cvalue = XCoordinatess.size() + YCoordinates.size();
+            double twocvalue = Cvalue / 2;
+            XCvalue = FinalformulaX / meanforx / VarianceX;
+            YCvalue = Finalformulay / meanfory / VarianceY;
+
+            count = 0;
+            for(int i = 0; i < dataset.size(); i++) {
+                count = i + 1;
+                System.out.println("Class" + " " + (count - 1) + ": " + twocvalue / XCvalue / YCvalue );
+                if(count < 0) {
                     break;
                 }
+            }
+            if (!scan.hasNext()) {
+                DataSetReadingConfirmation();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -123,120 +166,6 @@ public class GaussianNaiveBayes {
             while (endinput) {
                 break;
             }
-        }
-    }
-
-    private static void Backfunctions() {
-        ClassLoop();
-        ClassValueArray();
-        VarianceforY(YCoordinates);
-        VarianceforX(XCoordinatess);
-        SumofX();
-        SumofY();
-        MeanforX();
-        MeanforY();
-        FormulaforX();
-        FormulaforY();
-        ClassCombination();
-
-    }
-
-    private static void MeanforX() {
-        meanforx = sumofx / XCoordinatess.size();
-    }
-
-
-    private static void SumofX() {
-        sumofx = 0;
-        for (int i = 0; i < XCoordinatess.size(); i++) {
-            for (int ii = 0; ii < XCoordinatess.get(i).size(); ii++) {
-                sumofx += XCoordinatess.get(i).get(ii);
-            }
-        }
-
-    }
-
-    private static void SumofY() {
-        sumofy = 0;
-        for (int i = 0; i < YCoordinates.size(); i++) {
-            for (int ii = 0; ii < YCoordinates.get(i).size(); ii++) {
-                sumofy += YCoordinates.get(i).get(ii);
-            }
-        }
-    }
-
-    private static void MeanforY() {
-        meanfory = sumofy / YCoordinates.size();
-    }
-
-    private static double VarianceforX(ArrayList<ArrayList<Double>> XCoordinatess) {
-        double variance = 0;
-        VarianceX = 0;
-        for (int i = 0; i < XCoordinatess.size(); i++) {
-            for (int ii = 0; ii < XCoordinatess.get(i).size(); ii++) {
-                double pointvalue = XCoordinatess.get(i).get(ii);
-                double meanforxx = meanforx;
-                variance = Math.pow((pointvalue * 1.0 - meanforxx), 2);
-                VarianceX += variance;
-            }
-        }
-        VarianceX = VarianceX / (XCoordinatess.size() - 1);
-        return VarianceX;
-    }
-
-    private static double VarianceforY(ArrayList<ArrayList<Double>> YCoordinates) {
-        double variance = 0;
-        VarianceY = 0;
-        for (int i = 0; i < YCoordinates.size(); i++) {
-            for (int ii = 0; ii < YCoordinates.get(i).size(); ii++) {
-                double pointvalue = YCoordinates.get(i).get(ii);
-                double meanforyy = meanfory;
-                variance = Math.pow((pointvalue * 1.0 - meanforyy), 2);
-                VarianceY += variance;
-            }
-        }
-        VarianceY = VarianceY / (YCoordinates.size() - 1);
-        return VarianceY;
-    }
-
-    private static void ClassLoop() {
-        for (int xx = 0; xx < ClassValues.size(); xx++) {
-            if (xx < trueclassnumber + 1) {
-                ClassValues.add(xx);
-            }
-        }
-    }
-
-    private static void ClassValueArray() {
-        ClassArray = new double[ClassValues.size()];
-        for(int i = 0; i < ClassValues.size(); i++) {
-            ClassArray[i] = ClassValues.get(i);
-        }
-    }
-
-    private static void FormulaforX() {
-        BottomHalfofFormulaforX = 1 / Math.sqrt(2 * 3.14 * meanforx);
-        ExponentofFormulaforX = Math.pow(xvalue1 - VarianceX, 2) / 2 * VarianceX;
-        FinalformulaX = BottomHalfofFormulaforX * ExponentofFormulaforX;
-    }
-
-    private static void FormulaforY() {
-        BottomHalfofFormulaforY = 1 / Math.sqrt(2 * 3.14 * meanfory);
-        ExponentofFormulaY = Math.pow(yvalue2 - VarianceY, 2) / 2 * VarianceY;
-        Finalformulay = BottomHalfofFormulaforY * ExponentofFormulaY;
-    }
-
-    private static void FinalCombination() {
-        Cvalue = 2;
-        XCvalue = FinalformulaX / meanforx / VarianceX;
-        YCvalue = Finalformulay / meanfory / VarianceY;
-    }
-
-    private static void ClassCombination() {
-        FinalCombination();
-        for (int i = 0; i < ClassArray.length; i++) {
-            double xx = ClassArray[i];
-            System.out.println("Class" + " " + trueclassnumber + " " + "Probability:" + " " + Cvalue/XCvalue/YCvalue);
         }
     }
 }
