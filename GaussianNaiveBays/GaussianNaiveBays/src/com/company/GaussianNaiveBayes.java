@@ -1,12 +1,13 @@
 /*
-        A Program that does Gaussian Naive bayes for a given set of data with the goal of doing
-        Gaussian Naive Bayes to find the Probability of the point itself being in the dataset.
-        By @Jordan Hill
-        Period for doing AI Theory: F Period.
-        */
+A Program that does Gaussian Naive bayes for a given set of data with the goal of doing
+Gaussian Naive Bayes to find the Probability of the point itself being in the dataset.
+By @Jordan Hill
+Period for doing AI Theory: F Period.
+*/
 
 //All the Imports I used for the project of doing Gaussian Naive Baye Heuristics.
 
+import java.util.Collections;
 import java.util.Scanner;
 import java.io.*;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ public class GaussianNaiveBayes {
     private static ArrayList<Double> YCoordinates = new ArrayList<Double>();
     private static ArrayList<Double> XCoordinatess = new ArrayList<Double>();
     private static ArrayList<Integer> ClassValues = new ArrayList<>();
+    private static ArrayList<Double> sumforx = new ArrayList<>();
+    private static ArrayList<Double> sumfory = new ArrayList<>();
     private static double[] ClassArray;
 
     //All the Static Integers and Doubles I used for my Program when making it.
@@ -55,54 +58,53 @@ public class GaussianNaiveBayes {
         System.out.println(a);
     }
 
-    private static ArrayList<ArrayList<Double>> DataReader() {
+    private static <sumforx> ArrayList<ArrayList<Double>> DataReader() {
         try {
             Scanner scan = new Scanner(new BufferedReader(new FileReader("data")));
             dataset = new ArrayList<>();
+            XCoordinatess = new ArrayList<Double>();
             while (scan.hasNext()) {
                 trueclassnumber = scan.nextInt();
                 if (dataset.size() < trueclassnumber + 1) {
-                    dataset.add(new ArrayList<>());
+                    dataset.add(new ArrayList<>(count));
                     count++;
                 }
                 Coordinate1 = scan.nextDouble();
                 Coordinate2 = scan.nextDouble();
                 dataset.get(trueclassnumber).add(Coordinate1);
                 dataset.get(trueclassnumber).add(Coordinate2);
-                XCoordinatess.add(trueclassnumber, Coordinate1);
-                System.out.println(XCoordinatess.size());
-                if(XCoordinatess.size() == 2) {
-                    sumofx = 0;
-                    for(int i = 0; true; i++) {
-                        sumofx += XCoordinatess.get(i);
-                        System.out.println(sumofx);
-                    }
-                }
+
+                XCoordinatess.add(Coordinate1);
                 YCoordinates.add(Coordinate2);
-                for (Double XCoordinates : XCoordinatess) {
-                    sumofx = 0;
-                    while(sumofx < XCoordinatess.size()) {
-                        sumofx = sumofx + XCoordinatess.get(trueclassnumber);
-                        meanforx = sumofx / XCoordinatess.size();
-                    }
-                }
+
             }
 
-            for (Double YCoordinate : YCoordinates) {
-                sumofy = 0;
-                while(sumofy < YCoordinates.size()) {
-                    sumofy += YCoordinates.get(trueclassnumber);
-                    meanfory = sumofy / YCoordinates.size();
+
+            for (int i = 0; i < dataset.size(); i++) {
+                for (int ii = 1; ii < XCoordinatess.get(i); ii++) {
+                    sumofx = 0;
+                    sumforx.add(XCoordinatess.get(ii + ii - 2) + XCoordinatess.get(ii + ii -1));
                 }
+                break;
+            }
+
+            for (int i = 0; i < YCoordinates.size(); i++) {
+                for(int ii = 1; ii < YCoordinates.get(i); ii++) {
+                    sumofy = 0;
+                    sumfory.add(YCoordinates.get(ii + ii - 2) + YCoordinates.get(ii + ii - 1));
+                }
+                break;
             }
 
             double variancex = 0;
             VarianceX = 0;
             for (int i = 0; i < XCoordinatess.size(); i++) {
-                double pointvalue = XCoordinatess.get(i);
-                double meanforxx = meanforx;
-                variancex = Math.pow((XCoordinatess.get(i) * 1.0 - meanforxx), 2);
-                VarianceX = VarianceX + variancex;
+                for (int ii = 0; ii < XCoordinatess.get(i); ii++) {
+                    double pointvalue = XCoordinatess.get(i);
+                    double meanforxx = meanforx;
+                    variancex = Math.pow((pointvalue * 1.0 - meanforxx), 2);
+                    VarianceX = VarianceX + variancex;
+                }
             }
 
             VarianceX = VarianceX / (XCoordinatess.size() - 1);
@@ -112,7 +114,7 @@ public class GaussianNaiveBayes {
                 double pointvalue = YCoordinates.get(i);
                 double meanforyy = meanfory;
                 variance = Math.pow((pointvalue * 1.0 - meanforyy), 2);
-                VarianceY = VarianceY + variance;
+                VarianceY += variance;
             }
 
             VarianceY = VarianceY / (YCoordinates.size() - 1);
@@ -131,10 +133,10 @@ public class GaussianNaiveBayes {
             YCvalue = Finalformulay / meanfory / VarianceY;
 
             count = 0;
-            for(int i = 0; i < dataset.size(); i++) {
+            for (int i = 0; i < dataset.size(); i++) {
                 count = i + 1;
-                System.out.println("Class" + " " + (count - 1) + ": " + twocvalue / XCvalue / YCvalue );
-                if(count < 0) {
+                System.out.println("Class" + " " + (count - 1) + ": " + twocvalue / XCvalue / YCvalue);
+                if (count < 0) {
                     break;
                 }
             }
