@@ -1,15 +1,19 @@
 import numpy as np
-import math
-import random
 
 neuraltraining_data = [
-    [0, 1, 0],
-    [1, 1, 0],
-    [0, 0, 1],
-    [0, 1, 1]
+    [0,1,1],
+    [1,0,1],
+    [0,0,1],
 ]
 
-weight = np.arange(1, 40000)
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
 
-np.random.seed(200)
+def hyperbolictangent(x):
+    return (1 - np.exp(-2 * x)) / (1 + np.exp(-2 * x))
+
+def dsigmoid(y):
+    return y * (1.0 - y)
+
+
 
