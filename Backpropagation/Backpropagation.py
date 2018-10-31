@@ -20,8 +20,8 @@ class Neuron:
     def __init__(self, name, inputs):
         self.name = name
         self.inputs = inputs
-        
-class Inputs():
+
+class Inputs:
     def __init__(self, name, inputs):
         self.name = name
         self.inputs = inputs
