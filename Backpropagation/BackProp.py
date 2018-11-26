@@ -45,8 +45,28 @@ for inputss in weightlist:
 hiddenlayerinputss = []
 
 # Method for calculating the hidden layer inputs.
-def hiddenlayerinputs(w, inputtt):
-    y = inputtt * w
+def hiddenlayerinputs(w, inputtt, w2, inputtt2):
+    y = inputtt * w + inputtt2 * w2
     return y
 
 
+# Class used for writing the code for the neuron of the neural network for the project of backpropgation,
+# and the used of XOR Gates within the project as well for the Backpropgation of the Neural Network.
+class Neuron:
+    def __init__(self):
+        x = 0
+        self.bias = .924
+        self.weight = weightlist.pop(x)
+        self.learningrate = 0.05
+
+
+    def test(self, bias):
+        self.bias = 1
+        print(self.bias)
+
+
+class Inputs:
+    def __init__(self, name, inputs):
+        self.name = name
+        self.inputs = inputs
+        self.weights = np.random.random_integers(-10, 10, 19)
