@@ -1,26 +1,15 @@
 import numpy as np
-
-dataset = [
-    [1, 0, 1],
-    [0, 0, 0],
-    [0, 1, 1],
-    [1, 1, 0],
-]
-
-def sigmoid(x):
-    return 1 / (1 * np.exp(x))
-
-def sigmoidfunctionderivative(x):
-    return sigmoid(x)/(1 - sigmoid(x))
+x = [0, 1, 1, 0]
+y = [1, 1, 0, 1]
 
 
-class otherFunctions:
-    def __init__(self, name, value):
+class ArrayEstablish:
+    def __init__(self, name, values):
         self.name = name
-        self.value = value
+        self.values = values
 
-    def fowardprop(self):
-        return self.value
+    def valueholder(self):
+        return self.values
 
     def backpropagate(self):
         pass
@@ -29,67 +18,58 @@ class otherFunctions:
         pass
 
     def sigresults(self):
-        return sigmoid(self.inputs)
+        return self.values
 
 
+def sigmoid(x):
+    return 1 / 1 + np.exp(-x)
 
-inputs = [otherFunctions("input1", 0), otherFunctions("input2", 0)]
-hidden = [otherFunctions("hidden1", inputs), otherFunctions("hidden2", inputs)]
-outputs = [otherFunctions("output", hidden)]
-
-for example in dataset:
-    inputs[0].value = example[0]
-    inputs[1].value = example[1]
-weights = np.random.uniform(10, -10, 10)
-for i in inputs:
-    var1 = inputs[0].value
-    var2 = inputs[1].value
-    var33 = var1 * weights
-    var3 = var2 * weights
-    test = 0
-    test += var3
-    test2w = 0
-    test2w += var33
+class Neuron:
+    def __init__(self):
+        self.idealout = 1
+        self.w1 = np.random.uniform(size=len(x) + len(y)) * 20 - 10
+        self.w2 = np.random.uniform(size=len(y) + len(y)) * 20 - 10
+        self.learningrate = 0.7
+        self.learningmomentum = 0.3
+        self.bias = [1]
 
 
-hiddenv = []
-for ix in var3:
-    hiddenv.append(ix)
+    def sigmoid(self, x):
+        return 1 / 1 + np.exp(-x)
 
-def hiddenvalues(hvar):
-    return sigmoid(hvar)
+    def sigmoidderivative(self, x):
+        return (1 / 1 + np.exp(-x)) / (1 / 1 + np.exp(-x))
 
-for iz in hiddenv:
-    test2 = 0
-    test2 = hiddenvalues(iz)
+    for i in x:
+        i = x[i]
 
-class Test:
-    def __init__(self, name, inputs):
-        self.name = name
-        self.inputs = inputs
-        self.fowardprop = {}
+    u = 0
+    for u in y:
+        u = y[u]
 
-    def test(self):
-        return inputs[0].value * weights + inputs[1].value * weights
+    def hiddenlayer1(self, x, y):
+        self.z = np.dot(x, self.w1)
+        self.z2 = np.dot(y, self.w2)
+        self.hvalues = self.z + self.z2 + self.bias
+        self.h1list = []
+        self.h1list.append(self.hvalues)
+        o = self.h1list
+        return o
 
-    def sigresults(self):
-        return sigmoid(self.inputs)
+    def activationh1layer(self):
+        v = 1 / 1 + np.exp(self.h1list) * -1
+        return v
 
+test = Neuron()
+i = 0
+for i in x:
+    i = x[i]
 
+u = 0
+for u in y:
+    u = y[u]
 
+o = test.hiddenlayer1(i, u)
 
-for example in dataset:
-    outputs[0].value = example[2]
-    print(outputs[0].value)
-
-
-def outputcalc(x, x1):
-    return x + x1
-
-
-error = np.square(sigmoid(iz))
-meannn = np.inf
-
-error2 = np.mean(outputcalc(test, test2))
-while error2 != 0.04:
-    print(error2)
+print(o)
+print(test.activationh1layer())
