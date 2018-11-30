@@ -1,75 +1,36 @@
 import numpy as np
-x = [0, 1, 1, 0]
-y = [1, 1, 0, 1]
+x = np.array(([1, 0], [0, 1], [0, 0], [1, 1]), dtype=float)
 
-
-class ArrayEstablish:
-    def __init__(self, name, values):
-        self.name = name
-        self.values = values
-
-    def valueholder(self):
-        return self.values
-
-    def backpropagate(self):
-        pass
-
-    def weightupdatefunction(self):
-        pass
-
-    def sigresults(self):
-        return self.values
-
-
-def sigmoid(x):
-    return 1 / 1 + np.exp(-x)
-
+ys = x/np.amax(x, axis=0)
 class Neuron:
     def __init__(self):
-        self.idealout = 1
-        self.w1 = np.random.uniform(size=len(x) + len(y)) * 20 - 10
-        self.w2 = np.random.uniform(size=len(y) + len(y)) * 20 - 10
-        self.learningrate = 0.7
-        self.learningmomentum = 0.3
-        self.bias = [1]
+        self.hiddensize = 10
+        self.inputsize = -10
+        self.outsize = 1
+        self.w1 = np.random.uniform(self.hiddensize, self.inputsize)
+        self.w2 = np.random.uniform(self.hiddensize, self.outsize)
+        self.b = 1
+        self.target = 1
 
 
-    def sigmoid(self, x):
-        return 1 / 1 + np.exp(-x)
+    def sigmoid(self, s):
+        return 1 / (1 + np.exp(-s))
 
-    def sigmoidderivative(self, x):
-        return (1 / 1 + np.exp(-x)) / (1 / 1 + np.exp(-x))
+    def h1values(self, inptut):
+        z = inptut * self.w1 + inptut * self.w2 + self.b
+        ss = self.sigmoid(z)
+        us = np.dot(ss, self.w2)
+        return self.sigmoid(us)
 
-    for i in x:
-        i = x[i]
+    def error(self, prediction):
+        return (prediction - self.target) ** 2
 
-    u = 0
-    for u in y:
-        u = y[u]
+    def test2(self, ideal):
+        s = np.mean(np.square(ideal))
+        return s
 
-    def hiddenlayer1(self, x, y):
-        self.z = np.dot(x, self.w1)
-        self.z2 = np.dot(y, self.w2)
-        self.hvalues = self.z + self.z2 + self.bias
-        self.h1list = []
-        self.h1list.append(self.hvalues)
-        o = self.h1list
-        return o
-
-    def activationh1layer(self):
-        v = 1 / 1 + np.exp(self.h1list) * -1
-        return v
 
 test = Neuron()
-i = 0
-for i in x:
-    i = x[i]
+test2 = test.h1values(ys)
 
-u = 0
-for u in y:
-    u = y[u]
-
-o = test.hiddenlayer1(i, u)
-
-print(o)
-print(test.activationh1layer())
+print(test2)
