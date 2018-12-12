@@ -35,7 +35,7 @@ class Inputvals:
     def nameval(self):
         return self.name
 
-
+# Neuron class of the Neural Network for Backpropagation.
 class Neuron(object):
     def __init__(self):
         self.learningrate = 0.7
@@ -46,10 +46,14 @@ class Neuron(object):
         self.weight2 = np.random.uniform(size=len(x) * 2) * 20 - 10
         self.fowardprop = {}
         self.h1arr = []
+        self.error = 1.0
+        self.h2arr = []
+        self.h2vals = []
         self.outvals = []
         self.errors = []
         self.value = "Hidden Values"
 
+    # Initial Calculations for hidden layer
     def calc11(self, x):
         z1 = np.dot(x, self.weights) + self.bias
         z2 = np.dot(x, self.weight2) + self.bias
@@ -57,31 +61,48 @@ class Neuron(object):
         self.h1arr.append(self.sighvals(h1val))
         return self.sighvals(h1val)
 
+    # For finding the sigmoid values of the hidden layer, aka activation function
     def sighvals(self, x1):
         return sigmoid(x1)
 
+    # Sum for the output value
     def sumout(self, x2):
         for i in self.h1arr:
-            x1 = x2 * self.weight2 - i
-            return sum(x1)
+            self.h1sig(i)
+        return sum(x2 * self.weight2) + sum(x2 * self.weight2)
 
+    # May not be needed
+    def finalsumout(self, h1, w2):
+        for i in self.h2arr:
+            i = h1
+            self.h2vals.append(i * w2)
+        x = i * w2
+        return x
+
+    # May be not needed
     def sigmoidofact(self, x3):
         self.outvals.append(sigmoid(x3))
         return sigmoid(x3)
 
+    # Stores the foward prop values
     def fowardpropvals(self):
         for i in self.h1arr:
             self.fowardprop[self.value] = i
         return self.fowardprop
 
-    def backprop(self):
+    def backprop(self, xx):
         for i in self.outvals:
-           self.error = idealout - i
+           xx = i
+           self.error = self.error - xx
            self.errors.append(self.error)
-        return self.errors
+        return self.error - xx
 
     def sigderive(self, x4):
         return sigderivative(x4)
+
+    def h1sig(self, x11):
+        return sigderivative(x11)
+
 
 
 hava = []
@@ -89,9 +110,29 @@ o = Neuron()
 u = 0
 for i in l:
     u = o.calc11(l[i])
-
-print(u)
 xx = o.sumout(u)
-xy = o.sigmoidofact(xx)
-print(xx)
-print(xy)
+
+sigoutval = sigmoid(xx)
+errors = []
+error = 0 - sigoutval
+errors.append(error)
+
+delsum = 0
+delsumvar = []
+for i in errors:
+    delsum = sigderivative(sigoutval) * i
+    delsumvar.append(delsum)
+
+gradient = []
+gradfunc = 0
+for i in o.h1arr:
+    gradfunc = delsum * i
+    gradient.append(gradfunc)
+
+print(gradfunc)
+
+
+Cn = 0
+for i in gradfunc:
+    Cn = (o.learningrate * i) + (o.learningmomentum * o.weights - o.weight2)
+print(Cn)
