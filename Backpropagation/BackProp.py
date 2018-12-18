@@ -1,5 +1,8 @@
+# All the imports used for this project, in this case numpy
 import numpy as np
 
+
+# Training data list
 x = [
       [1, 0],
       [0, 1],
@@ -9,15 +12,19 @@ x = [
 
 idealout = [1, 0, 1, 0]
 
+# Used for storing data for inputs
 l = []
 
+# loops it all into a 2d list
 for iy in x:
     for iz in iy:
         l.append(iz)
 
+# Sigmoid function
 def sigmoid(x):
     return 1.0 / (1.0 + np.exp(-x))
 
+# Sigmoid derivative
 def sigderivative(x):
     return sigmoid(x)/(1.0 + sigmoid(x))
 
@@ -71,68 +78,64 @@ class Neuron(object):
             self.h1sig(i)
         return sum(x2 * self.weight2) + sum(x2 * self.weight2)
 
-    # May not be needed
-    def finalsumout(self, h1, w2):
-        for i in self.h2arr:
-            i = h1
-            self.h2vals.append(i * w2)
-        x = i * w2
-        return x
-
-    # May be not needed
-    def sigmoidofact(self, x3):
-        self.outvals.append(sigmoid(x3))
-        return sigmoid(x3)
-
     # Stores the foward prop values
     def fowardpropvals(self):
         for i in self.h1arr:
             self.fowardprop[self.value] = i
         return self.fowardprop
 
-    def backprop(self, xx):
-        for i in self.outvals:
-           xx = i
-           self.error = self.error - xx
-           self.errors.append(self.error)
-        return self.error - xx
 
+    # Used for finding the sig derivative for certain parts
     def sigderive(self, x4):
         return sigderivative(x4)
 
+
+    # Sig derivative for the hidden layer values
     def h1sig(self, x11):
         return sigderivative(x11)
 
 
-
+# Does the basic object for the neural network
 hava = []
 o = Neuron()
 u = 0
+# Does Not find the output sum right.
 for i in l:
     u = o.calc11(l[i])
 xx = o.sumout(u)
 
+# Function that does the error function for the neural network
 sigoutval = sigmoid(xx)
 errors = []
 error = 0 - sigoutval
 errors.append(error)
 
+# Does the delta sum for the neural
 delsum = 0
 delsumvar = []
 for i in errors:
     delsum = sigderivative(sigoutval) * i
     delsumvar.append(delsum)
 
+# Does the Gradient function for a neural network
 gradient = []
 gradfunc = 0
 for i in o.h1arr:
     gradfunc = delsum * i
     gradient.append(gradfunc)
+    o.weights += gradfunc
 
 print(gradfunc)
 
-
+# For Calculating the change in weights for the NN
 Cn = 0
 for i in gradfunc:
     Cn = (o.learningrate * i) + (o.learningmomentum * o.weights - o.weight2)
 print(Cn)
+
+iuxx = 0
+for i in o.h1arr:
+    iuxx = sigderivative(i)
+
+print(iuxx)
+
