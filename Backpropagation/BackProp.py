@@ -1,141 +1,100 @@
-# All the imports used for this project, in this case numpy
 import numpy as np
+inputdata = [
+    [1, 0, 1],
+    [0, 1, 1],
+    [0, 0, 0],
+    [1, 1, 0],
+]
 
-
-# Training data list
-x = [
-      [1, 0],
-      [0, 1],
-      [1, 0],
-      [0, 0],
- ]
-
-idealout = [1, 0, 1, 0]
-
-# Used for storing data for inputs
-l = []
-
-# loops it all into a 2d list
-for iy in x:
-    for iz in iy:
-        l.append(iz)
-
-# Sigmoid function
 def sigmoid(x):
-    return 1.0 / (1.0 + np.exp(-x))
+    return 1 / (1 + np.exp(-x))
 
-# Sigmoid derivative
 def sigderivative(x):
-    return sigmoid(x)/(1.0 + sigmoid(x))
+    return np.exp(x) / (1 + np.exp(x))**2
 
 
-# Defines a Class for the Hidden Values to be stored in, along with inputs, outputs, etc.
-# Using this class, these values are mainly stored as tuples in this case.
-class Inputvals:
-    def __init__(self, values, name):
+
+
+class Neuron():
+    def __init__(self, name, inputs):
         self.name = name
-        self.values = values
+        self.inputs = inputs
+        self.total = 0
+        self.weights = np.random.uniform(size=len(inputs) + 1) * 20 - 10
+        self.delta_weights_prev = np.zeros(len(inputs) + 1)
+        self.gradients = np.zeros(len(inputs) + 1)
+        self.forwardweights = {}
 
-    def valreturn(self):
-        return self.values
-
-    def nameval(self):
-        return self.name
-
-# Neuron class of the Neural Network for Backpropagation.
-class Neuron(object):
-    def __init__(self):
-        self.learningrate = 0.7
-        self.learningmomentum = 0.3
-        self.weights = np.random.uniform(size=len(x) * 2) * 20 - 10
-        self.bias = 1
-        self.predic = 1
-        self.weight2 = np.random.uniform(size=len(x) * 2) * 20 - 10
-        self.fowardprop = {}
-        self.h1arr = []
-        self.error = 1.0
-        self.h2arr = []
-        self.h2vals = []
-        self.outvals = []
-        self.errors = []
-        self.value = "Hidden Values"
-
-    # Initial Calculations for hidden layer
-    def calc11(self, x):
-        z1 = np.dot(x, self.weights) + self.bias
-        z2 = np.dot(x, self.weight2) + self.bias
-        h1val = z1 + z2
-        self.h1arr.append(self.sighvals(h1val))
-        return self.sighvals(h1val)
-
-    # For finding the sigmoid values of the hidden layer, aka activation function
-    def sighvals(self, x1):
-        return sigmoid(x1)
-
-    # Sum for the output value
-    def sumout(self, x2):
-        for i in self.h1arr:
-            self.h1sig(i)
-        return sum(x2 * self.weight2) + sum(x2 * self.weight2)
-
-    # Stores the foward prop values
-    def fowardpropvals(self):
-        for i in self.h1arr:
-            self.fowardprop[self.value] = i
-        return self.fowardprop
+    def training1(self):
+        inputs = []
+        for index, neuron in enumerate(self.inputs):
+            neuron.forwardweights[self.name] = self.weights[index]
+            inputs.append(neuron.training1())
+        self.total = np.dot(inputs + [1], self.weights)
+        self.value = sigmoid(self.total)
+        return self.value
 
 
-    # Used for finding the sig derivative for certain parts
-    def sigderive(self, x4):
-        return sigderivative(x4)
+    def backprop(self, error):
+        weight_totals = sum(self.forwardweights.values())
+        layer_delta = -error * sigderivative(self.total) * weight_totals
+        for index, neuron in enumerate(self.inputs):
+            self.gradients[index] += layer_delta * neuron.value
+            neuron.backprop(layer_delta)
+        # update bias weight
+        self.gradients[-1] += layer_delta
+
+    def weightupdate(self, netlearnrate = 0.7, netlearningmomentum=0.3):
+        weightchange = netlearningmomentum * self.delta_weights_prev + netlearnrate * self.gradients
+        self.weights += weightchange
+        self.delta_weights_prev = weightchange
+        self.gradients = np.zeros(len(self.inputs) + 1)
 
 
-    # Sig derivative for the hidden layer values
-    def h1sig(self, x11):
-        return sigderivative(x11)
+class Inputs():
+    def __init__(self, name, value):
+        self.value = value
+        self.name = name
+        self.forwardweights = {}
+
+    def training1(self):
+        return self.value
+
+    def backprop(self, error):
+        pass
+
+    def updateweights(self):
+        pass
 
 
-# Does the basic object for the neural network
-hava = []
-o = Neuron()
-u = 0
-# Does Not find the output sum right.
-for i in l:
-    u = o.calc11(l[i])
-xx = o.sumout(u)
+inputvals = [Inputs("value 1", 0), Inputs("value 2", 0)]
+hidden = [Neuron("hidden1", inputvals), Neuron("hidden2", inputvals)]
+output = Neuron("outvals", hidden)
+output.forwardweights["outneuron"] = 1
 
-# Function that does the error function for the neural network
-sigoutval = sigmoid(xx)
-errors = []
-error = 0 - sigoutval
-errors.append(error)
 
-# Does the delta sum for the neural
-delsum = 0
-delsumvar = []
-for i in errors:
-    delsum = sigderivative(sigoutval) * i
-    delsumvar.append(delsum)
+mse = np.inf
+while mse >= 0.05:
+    errors = []
+    for i in inputdata:
+        inputvals[0].value = i[0]
+        inputvals[1].value = i[1]
 
-# Does the Gradient function for a neural network
-gradient = []
-gradfunc = 0
-for i in o.h1arr:
-    gradfunc = delsum * i
-    gradient.append(gradfunc)
-    o.weights += gradfunc
+        finalresult = output.training1()
+        wantedval = i[2]
 
-print(gradfunc)
+        error = finalresult - wantedval
+        errors.append(error)
+        output.backprop(error)
 
-# For Calculating the change in weights for the NN
-Cn = 0
-for i in gradfunc:
-    Cn = (o.learningrate * i) + (o.learningmomentum * o.weights - o.weight2)
-print(Cn)
+    output.weightupdate()
+    mse = np.mean(np.square(errors))
+    print(f"Mean Squared Error: {mse}")
 
-iuxx = 0
-for i in o.h1arr:
-    iuxx = sigderivative(i)
-
-print(iuxx)
-
+print('Final values:')
+print('↧')
+for i in inputdata:
+    inputvals[0].value = i[0]
+    inputvals[1].value = i[1]
+    predicted = output.training1()
+    print(f"({i[0]}, {i[1]}) = {predicted}")
