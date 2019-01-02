@@ -37,12 +37,12 @@ class Neuron():
 
     def backprop(self, error):
         weight_totals = sum(self.forwardweights.values())
-        layer_delta = -error * sigderivative(self.total) * weight_totals
+        deltanode = -error * sigderivative(self.total) * weight_totals
         for index, neuron in enumerate(self.inputs):
-            self.gradients[index] += layer_delta * neuron.value
-            neuron.backprop(layer_delta)
+            self.gradients[index] += deltanode * neuron.value
+            neuron.backprop(deltanode)
         # update bias weight
-        self.gradients[-1] += layer_delta
+        self.gradients[-1] += deltanode
 
     def weightupdate(self, netlearnrate = 0.7, netlearningmomentum=0.3):
         weightchange = netlearningmomentum * self.delta_weights_prev + netlearnrate * self.gradients
