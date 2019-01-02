@@ -21,7 +21,7 @@ class Neuron():
         self.inputs = inputs
         self.total = 0
         self.weights = np.random.uniform(size=len(inputs) + 1) * 20 - 10
-        self.delta_weights_prev = np.zeros(len(inputs) + 1)
+        self.deltaweightsprev = np.zeros(len(inputs) + 1)
         self.gradients = np.zeros(len(inputs) + 1)
         self.forwardweights = {}
 
